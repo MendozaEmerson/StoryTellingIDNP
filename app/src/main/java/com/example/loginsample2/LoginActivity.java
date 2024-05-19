@@ -2,7 +2,11 @@ package com.example.loginsample2;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.example.loginsample2.AccountActivity.PREFS_NAME;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,13 +15,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.loginsample2.databinding.ActivityMainBinding;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private AccountEntity accountEntity;
+    private String accountEntityString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText editPassword = binding.editPassword;
         Button btnLogin = binding.btnLogin;
         TextView textViewSignIn = binding.textViewSignIn;
-        AccountEntity accountEntity;
-
+        /*
         Intent intent= getIntent();
         if (intent != null && intent.hasExtra("account")) {
             Log.d("TAG","recibió intent");
@@ -41,55 +51,59 @@ public class LoginActivity extends AppCompatActivity {
             String password = accountEntity.getPassword();
             editUsername.setText(user);
             editPassword.setText(password);
-        }
+        }*/
 
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        String savedUsername = sharedPreferences.getString("USERNAME", "");
+        String savedPassword = sharedPreferences.getString("PASSWORD", "");
 
-        btnLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
+        editUsername.setText(savedUsername);
+        editPassword.setText(savedPassword);
 
-                String username = editUsername.getText().toString();
-                String password = editPassword.getText().toString();
+        btnLogin.setOnClickListener(v -> {
+            String username= editUsername.getText().toString();
+            String password= editPassword.getText().toString();
 
-// Iterar sobre la lista de cuentas
-                /*for (AccountEntity account : accountEntity.getAccountList()) {
-                    // Comparar el nombre de usuario y la contraseña
-                    if (username.equals(account.getUser()) && password.equals(account.getPassword())) {
-                        // Las credenciales son válidas
-                        // Aquí puedes realizar las acciones que deseas después de la autenticación exitosa
-                        Toast.makeText(getApplicationContext(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "Inicio de sesión exitoso");
-                        // Por ejemplo, abrir una nueva actividad
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        intent.putExtra("username", username);
-                        startActivity(intent);
-                        return; // Salir del bucle si se encuentra una coincidencia
-                    }
-                }
-                Toast.makeText(getApplicationContext(), "Credenciales inválidas", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Credenciales inválidas");*/
+           if (username.equals(accountEntity.getUser()) && password.equals(accountEntity.getPassword())){
+                Toast.makeText(getApplicationContext(), "Bienvenido a mi App", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Bienvenido a mi App");
 
-               if ((editUsername.getText().toString().equals("admin")||(editUsername.getText().toString().equals("jeff"))&& editPassword.getText().toString().equals("admin")){
-                    Toast.makeText(getApplicationContext(), "Bienvenido a mi App", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "Bienvenido a mi App");
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    intent.putExtra("username", editUsername.getText().toString());
-                    startActivity(intent);
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                intent.putExtra("ACCOUNT", accountEntityString);
+                startActivity(intent);
 
-                }else{
-                    Toast.makeText(getApplicationContext(), "Error en la autenticación", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "Error en la autenticación");
-                }
-
+            } else{
+                Toast.makeText(getApplicationContext(), "Error en la autenticación", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Error en la autenticación");
             }
+
         });
 
-        textViewSignIn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
-                startActivity(intent);
-            }
+        textViewSignIn.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
+            activityResultLauncher.launch(intent);
         });
     }
+
+    ActivityResultLauncher<Intent> activityResultLauncher=registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            activityResult -> {
+                Integer resultCode= activityResult.getResultCode();
+                if (resultCode==AccountActivity.ACCOUNT_ACEPTAR){
+                    Intent data= activityResult.getData();
+                    accountEntityString=data.getStringExtra(AccountActivity.ACCOUNT_RECORD);
+
+                    Gson gson= new Gson();
+                    accountEntity=gson.fromJson(accountEntityString, AccountEntity.class);
+
+                    String firstName= accountEntity.getFirstName();
+                    Log.d("Login Activity", "Nombre: "firstName);
+                    Toast.makeText(getApplicationContext(), "Nombre:"+firstName, Toast.LENGTH_SHORT).show();
+
+                }else if(resultCode==AccountActivity.ACCOUNT_CANCELAR){
+                    Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+    );
 }
