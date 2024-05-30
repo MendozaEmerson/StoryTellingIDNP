@@ -63,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(v -> {
             String username= editUsername.getText().toString();
             String password= editPassword.getText().toString();
-
-           if (username.equals(accountEntity.getUser()) && password.equals(accountEntity.getPassword())){
+            //if (username.equals(accountEntity.getUser()) && password.equals(accountEntity.getPassword())){
+           if (username.equals("admin") && password.equals("admin")){
                 Toast.makeText(getApplicationContext(), "Bienvenido a mi App", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "Bienvenido a mi App");
 
@@ -89,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
             new ActivityResultContracts.StartActivityForResult(),
             activityResult -> {
                 Integer resultCode= activityResult.getResultCode();
-                if (resultCode==AccountActivity.ACCOUNT_ACEPTAR){
+                Log.d("Login Activity", "Resultado recibido: " + resultCode);
+                if (resultCode.equals(AccountActivity.ACCOUNT_ACEPTAR)){
                     Intent data= activityResult.getData();
                     accountEntityString=data.getStringExtra(AccountActivity.ACCOUNT_RECORD);
 
@@ -97,10 +98,12 @@ public class LoginActivity extends AppCompatActivity {
                     accountEntity=gson.fromJson(accountEntityString, AccountEntity.class);
 
                     String firstName= accountEntity.getFirstName();
-                    Log.d("Login Activity", "Nombre: "firstName);
+                    Log.d("Login Activity", "Nombre: "+firstName);
                     Toast.makeText(getApplicationContext(), "Nombre:"+firstName, Toast.LENGTH_SHORT).show();
 
-                }else if(resultCode==AccountActivity.ACCOUNT_CANCELAR){
+                }
+                    if(resultCode.equals(AccountActivity.ACCOUNT_CANCELAR)){
+                    Log.d("Login Activity", "Se recibió ACCOUNT_CANCELAR");
                     Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_SHORT).show();
                 }
 
