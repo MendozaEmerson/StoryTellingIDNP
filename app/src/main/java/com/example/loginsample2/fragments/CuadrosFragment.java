@@ -32,7 +32,7 @@ public class CuadrosFragment extends Fragment {
     private AdapterRecyclerView adapterRecyclerView;
     private List<AdapterRecyclerView.Item> items;
 
-    private static FragmentChanger fragmentChanger;
+    public static FragmentChanger fragmentChanger;
 
     public CuadrosFragment() {
         // Required empty public constructor
