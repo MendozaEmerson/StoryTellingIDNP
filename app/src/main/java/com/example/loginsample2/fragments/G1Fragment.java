@@ -12,12 +12,13 @@ import com.example.loginsample2.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MapaFragment#newInstance} factory method to
+ * Use the {@link G1Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapaFragment extends Fragment {
+public class G1Fragment extends Fragment {
 
-    private G1Fragment g1Fragment = null;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -25,7 +26,7 @@ public class MapaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MapaFragment() {
+    public G1Fragment() {
         // Required empty public constructor
     }
 
@@ -35,11 +36,11 @@ public class MapaFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MapaFragment.
+     * @return A new instance of fragment G1Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MapaFragment newInstance(String param1, String param2) {
-        MapaFragment fragment = new MapaFragment();
+    public static G1Fragment newInstance(String param1, String param2) {
+        G1Fragment fragment = new G1Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,6 +61,6 @@ public class MapaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mapa, container, false);
+        return inflater.inflate(R.layout.fragment_g1, container, false);
     }
 }
