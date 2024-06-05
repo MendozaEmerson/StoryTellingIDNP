@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.example.loginsample2.R;
 
+import java.util.zip.Inflater;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CuadrosFragment#newInstance} factory method to

@@ -3,10 +3,13 @@ package com.example.loginsample2.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.loginsample2.R;
 
@@ -18,6 +21,8 @@ import com.example.loginsample2.R;
 public class MapaFragment extends Fragment {
 
     private G1Fragment g1Fragment = null;
+    private FragmentManager fragmentManager = null;
+    private FragmentTransaction fragmentTransaction = null;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -60,6 +65,28 @@ public class MapaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mapa, container, false);
+        View view = inflater.inflate(R.layout.fragment_mapa, container, false);
+
+        Button buttonG1 = view.findViewById(R.id.button4);
+        buttonG1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear una instancia del fragmento que deseas mostrar
+                if (g1Fragment == null) {
+                    g1Fragment = new G1Fragment();
+                }
+                // Iniciar una transacción de fragmentos
+                fragmentManager = getParentFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+
+                // Reemplazar el fragmento actual con el nuevo fragmento
+                fragmentTransaction.replace(R.id.fragmentContainerView, g1Fragment);
+                fragmentTransaction.addToBackStack(null); // Para permitir retroceder al fragmento anterior
+                fragmentTransaction.commit();
+
+            }
+        });
+
+        return view;
     }
 }
