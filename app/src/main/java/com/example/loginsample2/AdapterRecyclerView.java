@@ -10,6 +10,8 @@ import java.util.List;
 
 public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerView.MyViewHolder> {
 
+
+
     public static class Item {
         public int imageResId;
         public String title;
@@ -28,6 +30,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
 
     public AdapterRecyclerView(List<Item> items) {
         this.items = items;
+        //this.listener=listener;
     }
 
     @NonNull
@@ -41,6 +44,9 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Item item = items.get(position);
         //holder.imageView.setImageResource(item.imageResId);
+
+
+
         //PARA EJEMPLO
         holder.imageView.setImageResource(R.drawable.carpintero_de_nidos);
         holder.titleTextView.setText(item.title);
