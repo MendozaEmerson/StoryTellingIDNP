@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.loginsample2.AdapterRecyclerView;
+import com.example.loginsample2.FragmentChanger;
 import com.example.loginsample2.R;
 
 import java.util.ArrayList;
@@ -31,16 +32,16 @@ public class CuadrosFragment extends Fragment {
     private AdapterRecyclerView adapterRecyclerView;
     private List<AdapterRecyclerView.Item> items;
 
+    public static FragmentChanger fragmentChanger;
+
     public CuadrosFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static CuadrosFragment newInstance(String param1, String param2) {
+    public static CuadrosFragment newInstance(String a, String b, FragmentChanger fragmentChanger) {
         CuadrosFragment fragment = new CuadrosFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        CuadrosFragment.fragmentChanger = fragmentChanger;
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,7 +77,13 @@ public class CuadrosFragment extends Fragment {
         items.add(new AdapterRecyclerView.Item(1,"Carpintero de Nidos","Sala N° X", "Daniel Gallegos Esquivias"));
 
 
-        adapterRecyclerView=new AdapterRecyclerView(items);
+
+        adapterRecyclerView=new AdapterRecyclerView(items, new AdapterRecyclerView.OnImageClickListener() {
+            @Override
+            public void onImageClick(int imageId) {
+                fragmentChanger.changeFragment(CuadroDetalleFragment.newInstance("",""));
+            }
+        });
         recyclerView.setAdapter(adapterRecyclerView);
 
         return view;

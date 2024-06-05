@@ -24,7 +24,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.gson.Gson;
 
-public class HomeActivity extends AppCompatActivity {
+
+public class HomeActivity extends AppCompatActivity{
 
     private ActivityHomeBinding binding;
     private FragmentManager fragmentManager=null;
@@ -76,7 +77,12 @@ public class HomeActivity extends AppCompatActivity {
                     loadFragment(homeFragment);
                     return true;
                 }else if(menuItem.getItemId()==R.id.menu_cuadros){
-                    cuadrosFragment=CuadrosFragment.newInstance("","");
+                    cuadrosFragment=CuadrosFragment.newInstance("", "", new FragmentChanger() {
+                        @Override
+                        public void changeFragment(Fragment fragment) {
+                            loadFragment(fragment);
+                        }
+                    });
                     loadFragment(cuadrosFragment);
                     return true;
                 }else if(menuItem.getItemId()==R.id.menu_mapa){
@@ -91,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
-    private void loadFragment(Fragment fragment){
+    public void loadFragment(Fragment fragment){
         if(fragmentManager!=null){
             fragmentTransaction=fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragmentContainerView,fragment);

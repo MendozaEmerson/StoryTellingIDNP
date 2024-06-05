@@ -27,10 +27,12 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
     }
 
     private List<Item> items;
+    private OnImageClickListener onImageClickListener;
 
-    public AdapterRecyclerView(List<Item> items) {
+    public AdapterRecyclerView(List<Item> items, OnImageClickListener onImageClickListener) {
         this.items = items;
         //this.listener=listener;
+        this.onImageClickListener = onImageClickListener;
     }
 
     @NonNull
@@ -52,6 +54,15 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
         holder.titleTextView.setText(item.title);
         holder.locationTextView.setText(item.location);
         holder.authorTextView.setText(item.author);
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onImageClickListener != null) {
+                    onImageClickListener.onImageClick(item.imageResId);
+                }
+            }
+        });
     }
 
     @Override
@@ -78,5 +89,9 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<AdapterRecyclerVie
             authorTextView = view.findViewById(R.id.item_author);
         }
     }
-}
 
+    // Define the interface for the click listener
+    public interface OnImageClickListener {
+        void onImageClick(int imageId);
+    }
+}
