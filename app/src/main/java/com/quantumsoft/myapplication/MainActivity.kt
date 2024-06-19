@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         canvasMap = findViewById(R.id.canvasMap)
 
         // Crear una galería como un rectángulo dentro de los límites del CanvasMap
-        val galeria1 = Galeria(50f, 50f, 300f, 300f, Color.GREEN)
+        val galeria1 = Galeria(50f, 50f, 300f, 300f, Color.GREEN, "Galeria 1")
 
         // Agregar figuras ajustadas a la galería
         val esculturaInGallery = Escultura(0f, 0f, 20f, Color.MAGENTA)
@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity() {
             top = gallery2Top,
             right = bottomLeftOfGallery1.first + (galeria1.getTopRight().first - galeria1.getTopLeft().first),
             bottom = gallery2Top + (galeria1.getBottomRight().second - galeria1.getTopLeft().second),
-            borderColor = Color.BLUE
+            borderColor = Color.BLUE,
+            "Galeria 4"
         )
         // Agregar la galería al CanvasMap
         canvasMap.addDrawableShape(galeria1)

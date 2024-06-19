@@ -9,7 +9,8 @@ class Galeria(
     private val top: Float,
     private val right: Float,
     private val bottom: Float,
-    private var borderColor: Int
+    private var borderColor: Int,
+    private var name: String = ""
 ) : DibujarExposicion {
 
     private val drawableShapes = mutableListOf<DibujarExposicion>()
@@ -63,16 +64,35 @@ class Galeria(
         return Pair(right, bottom)
     }
 
+    fun getName(): String {
+        return name
+    }
+
+    fun setName(name: String){
+        this.name = name
+    }
+
     override fun draw(canvas: Canvas, paint: Paint) {
         // Dibujar el rectángulo de la galería
         paint.color = borderColor
         canvas.drawRect(left, top, right, bottom, paint)
 
-        // Dibujar las coordenadas de la galería
-        paint.color = Color.DKGRAY
+        // Dibujar las coordenadas de la galería con un color HSV
+        val hsv = floatArrayOf(240f, 1f, 1f) // Hue=60°, Saturation=100%, Value=100%
+        paint.color = Color.HSVToColor(hsv)
         paint.textSize = 30f
         canvas.drawText("($left, $top)", left, top - 10, paint)
         canvas.drawText("($right, $bottom)", right, bottom + 30, paint)
+
+        // Dibujar el nombre en el centro de la galería
+        if (name.isNotEmpty()) {
+            paint.color = Color.BLACK
+            paint.textSize = 40f
+            val textWidth = paint.measureText(name)
+            val centerX = (left + right) / 2
+            val centerY = (top + bottom) / 2
+            canvas.drawText(name, centerX - textWidth / 2, centerY + paint.textSize / 2, paint)
+        }
 
         // Dibujar las figuras dentro de la galería
         for (shape in drawableShapes) {
