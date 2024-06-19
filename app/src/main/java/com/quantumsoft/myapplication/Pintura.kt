@@ -1,6 +1,7 @@
 package com.quantumsoft.myapplication
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 
 class Pintura(
@@ -62,5 +63,11 @@ class Pintura(
     override fun draw(canvas: Canvas, paint: Paint) {
         paint.color = color
         canvas.drawRect(left, top, right, bottom, paint)
+
+        // Dibujar las coordenadas
+        paint.color = Color.BLACK
+        paint.textSize = 30f
+        canvas.drawText("($left, $top)", left, top - 10, paint)
+        canvas.drawText("($right, $bottom)", right, bottom + 30, paint)
     }
 }

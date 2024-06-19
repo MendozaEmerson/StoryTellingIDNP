@@ -1,6 +1,7 @@
 package com.quantumsoft.myapplication
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 
 class Galeria(
@@ -11,23 +12,22 @@ class Galeria(
     private var borderColor: Int
 ) : DibujarExposicion {
 
-    private val dibujarExposicions = mutableListOf<DibujarExposicion>()
+    private val drawableShapes = mutableListOf<DibujarExposicion>()
 
-    fun addDrawableShape(dibujarExposicion: DibujarExposicion, offsetX: Float = 0f, offsetY: Float = 0f) {
+    fun addDrawableShape(drawableShape: DibujarExposicion, offsetX: Float = 0f, offsetY: Float = 0f) {
         // Calcular las posiciones relativas dentro de la galería
-        val adjustedShape = adjustShapePosition(dibujarExposicion, offsetX, offsetY)
-        dibujarExposicions.add(adjustedShape)
+        val adjustedShape = adjustShapePosition(drawableShape, offsetX, offsetY)
+        drawableShapes.add(adjustedShape)
     }
 
     private fun adjustShapePosition(shape: DibujarExposicion, offsetX: Float, offsetY: Float): DibujarExposicion {
-        // Ajustar la posición de la figura para que esté dentro de los límites de la galería
         if (shape is Escultura) {
-            val escultura = shape as Escultura
-            val adjustedX = clamp(escultura.getX() + offsetX, left + escultura.getRadius(), right - escultura.getRadius())
-            val adjustedY = clamp(escultura.getY() + offsetY, top + escultura.getRadius(), bottom - escultura.getRadius())
-            escultura.setX(adjustedX)
-            escultura.setY(adjustedY)
-            return escultura
+            val circle = shape as Escultura
+            val adjustedX = clamp(circle.getX() + offsetX, left + circle.getRadius(), right - circle.getRadius())
+            val adjustedY = clamp(circle.getY() + offsetY, top + circle.getRadius(), bottom - circle.getRadius())
+            circle.setX(adjustedX)
+            circle.setY(adjustedY)
+            return circle
         } else if (shape is Pintura) {
             val rect = shape as Pintura
             val adjustedLeft = clamp(rect.getLeft() + offsetX, left, right - rect.getWidth())
@@ -40,7 +40,6 @@ class Galeria(
             rect.setBottom(adjustedBottom)
             return rect
         }
-        // Puedes agregar ajustes para otros tipos de figuras según sea necesario
         return shape
     }
 
@@ -48,13 +47,35 @@ class Galeria(
         return Math.max(min, Math.min(max, value))
     }
 
+    fun getTopLeft(): Pair<Float, Float> {
+        return Pair(left, top)
+    }
+
+    fun getTopRight(): Pair<Float, Float> {
+        return Pair(right, top)
+    }
+
+    fun getBottomLeft(): Pair<Float, Float> {
+        return Pair(left, bottom)
+    }
+
+    fun getBottomRight(): Pair<Float, Float> {
+        return Pair(right, bottom)
+    }
+
     override fun draw(canvas: Canvas, paint: Paint) {
         // Dibujar el rectángulo de la galería
         paint.color = borderColor
         canvas.drawRect(left, top, right, bottom, paint)
 
+        // Dibujar las coordenadas de la galería
+        paint.color = Color.DKGRAY
+        paint.textSize = 30f
+        canvas.drawText("($left, $top)", left, top - 10, paint)
+        canvas.drawText("($right, $bottom)", right, bottom + 30, paint)
+
         // Dibujar las figuras dentro de la galería
-        for (shape in dibujarExposicions) {
+        for (shape in drawableShapes) {
             shape.draw(canvas, paint)
         }
     }

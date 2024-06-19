@@ -15,22 +15,29 @@ class MainActivity : AppCompatActivity() {
         canvasMap = findViewById(R.id.canvasMap)
 
         // Crear una galería como un rectángulo dentro de los límites del CanvasMap
-        val galeria = Galeria(0f, 0f, 480f, 300f, Color.GREEN)
+        val galeria1 = Galeria(50f, 50f, 300f, 300f, Color.GREEN)
 
         // Agregar figuras ajustadas a la galería
-        val esculturaInGallery = Escultura(80f, 0f, 40f, Color.MAGENTA)
-        galeria.addDrawableShape(esculturaInGallery)
+        val esculturaInGallery = Escultura(0f, 0f, 20f, Color.MAGENTA)
+        galeria1.addDrawableShape(esculturaInGallery)
 
-        val pinturaInGallery = Pintura(10f, 10f, 90f, 90f, Color.YELLOW)
-        // Agregar rectángulo con un desplazamiento
-        galeria.addDrawableShape(pinturaInGallery, 0f, 0f)
+        // Obtener la coordenada global de la esquina inferior izquierda de galeria1
+        val bottomLeftOfGallery1 = galeria1.getBottomLeft()
 
-        val pinturaInGallery1 = Pintura(50f, 50f, 90f, 90f, Color.BLUE)
-        // Agregar rectángulo con un desplazamiento
-        galeria.addDrawableShape(pinturaInGallery1)
-
-
+        // Crear una nueva galería justo debajo de gallery1
+        //val offsetX = 0f
+        val offsetY = 0f // Un pequeño margen entre las galerías
+        val gallery2Top = bottomLeftOfGallery1.second + offsetY
+        val gallery2 = Galeria(
+            left = bottomLeftOfGallery1.first,
+            top = gallery2Top,
+            right = bottomLeftOfGallery1.first + (galeria1.getTopRight().first - galeria1.getTopLeft().first),
+            bottom = gallery2Top + (galeria1.getBottomRight().second - galeria1.getTopLeft().second),
+            borderColor = Color.BLUE
+        )
         // Agregar la galería al CanvasMap
-        canvasMap.addDrawableShape(galeria)
+        canvasMap.addDrawableShape(galeria1)
+
+        canvasMap.addDrawableShape(gallery2)
     }
 }

@@ -1,6 +1,7 @@
 package com.quantumsoft.myapplication
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 
 class Escultura(
@@ -37,5 +38,10 @@ class Escultura(
     override fun draw(canvas: Canvas, paint: Paint) {
         paint.color = color
         canvas.drawCircle(centerX, centerY, radius, paint)
+
+        // Dibujar las coordenadas
+        paint.color = Color.RED
+        paint.textSize = 30f
+        canvas.drawText("($centerX, $centerY)", centerX + radius + 10, centerY, paint)
     }
 }
