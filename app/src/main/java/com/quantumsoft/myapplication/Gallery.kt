@@ -8,7 +8,7 @@ class Gallery(
     override val y: Float,
     override val width: Float,
     override val height: Float,
-    private val name: String,
+    val name: String,
     private val paint: Paint,
     private val textPaint: Paint
 ) : DrawableItem {

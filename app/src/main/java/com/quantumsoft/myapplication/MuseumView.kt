@@ -5,28 +5,32 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-
 class MuseumView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    private val TAG = "MuseumView"
+
     private val museum = Museum()
 
-    // Parámetros de recorte y escalado
-    private var clipX: Float = 0f
-    private var clipY: Float = 0f
-    private var clipWidth: Float = 1000f
-    private var clipHeight: Float = 1000f
+    // Escalado y desplazamiento del canvas
+    private var scale = 1f
+    private var canvasTranslateX = 0f
+    private var canvasTranslateY = 0f
+
+    // Punto central del zoom
+    private var zoomCenterX = 0f
+    private var zoomCenterY = 0f
 
     // Galería actualmente clickeada para zoom
     private var clickedGallery: Gallery? = null
 
     init {
-
         // Estilos para esculturas y pinturas
         val sculpturePaint = Paint().apply {
             color = Color.BLUE
@@ -80,16 +84,58 @@ class MuseumView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        museum.setClipArea(clipX, clipY, clipWidth, clipHeight)
+        clickedGallery?.let {
+            if (it.width> it.height) {
+                scale = canvas.height / it.height
+            } else {
+                scale = canvas.width / it.width
+            }
+            canvasTranslateX = -it.x - it.width / 2 + canvas.width / 2
+            canvasTranslateY = -it.y - it.height / 2 + canvas.height / 2
+        }
+
+//        canvas.scale(scale, scale, canvas.width / 2f, canvas.height / 2f)
+        canvas.translate(canvasTranslateX, canvasTranslateY)
+        Log.d(TAG, "onDraw: scale: $scale, translateX: $canvasTranslateX, translateY: $canvasTranslateY")
         museum.draw(canvas)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        Log.d(TAG, "x: ${event.x}, y: ${event.y}")
+        Log.i(TAG, "scale: $scale, translationX: $canvasTranslateX, translationY: $canvasTranslateY")
+        val scaledX = (event.x - canvasTranslateX) / scale
+        val scaledY = (event.y - canvasTranslateY) / scale
+
+        // various combinations of event position, translation and scale
+        val x1 = (event.x + canvasTranslateX/scale) / scale
+        val y1 = (event.y + canvasTranslateY/scale) / scale
+        Log.i(TAG, "x1: $x1, y1: $y1")
+        val x2 = (event.x + canvasTranslateX) * scale
+        val y2 = (event.y + canvasTranslateY) * scale
+        Log.i(TAG, "x2: $x2, y2: $y2")
+        val x3 = (event.x * scale) + canvasTranslateX
+        val y3 = (event.y * scale) + canvasTranslateY
+        Log.i(TAG, "x3: $x3, y3: $y3")
+        val x4 = (event.x * scale) - canvasTranslateX
+        val y4 = (event.y * scale) - canvasTranslateY
+        Log.i(TAG, "x4: $x4, y4: $y4")
+        val x5 = (event.x - canvasTranslateX) / scale
+        val y5 = (event.y - canvasTranslateY) / scale
+        Log.i(TAG, "x5: $x5, y5: $y5")
+
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                val x = event.x
-                val y = event.y
-                clickedGallery = findClickedGallery(x, y)
+                if (clickedGallery != null) {
+                    // Si hay una galería clickeada, restaurar el zoom normal
+                    scale = 1f
+                    canvasTranslateX = 0f
+                    canvasTranslateY = 0f
+                    clickedGallery = null
+                    invalidate()
+                    return true
+                }
+                Log.d(TAG, "onTouchEvent: Down at ($scaledX, $scaledY)")
+                val clickedGallery = findClickedGallery(scaledX, scaledY)
                 clickedGallery?.let {
                     toggleZoom(it)
                     return true
@@ -101,8 +147,11 @@ class MuseumView @JvmOverloads constructor(
 
     // Método para encontrar la galería clickeada en las coordenadas (x, y)
     private fun findClickedGallery(x: Float, y: Float): Gallery? {
+        Log.i(TAG, "findClickedGallery: x: $x y: $y")
         for (gallery in museum.galleries) {
+            Log.i(TAG, "findClickedGallery: ${gallery.name} x: ${gallery.x} y: ${gallery.y}")
             if (gallery.containsPoint(x, y)) {
+                Log.d(TAG, "findClickedGallery: Clicked on ${gallery.name}")
                 return gallery
             }
         }
@@ -113,56 +162,17 @@ class MuseumView @JvmOverloads constructor(
     private fun toggleZoom(gallery: Gallery) {
         if (gallery == clickedGallery) {
             // Si la galería clickeada es la misma que la última clickeada, restaurar el zoom normal
-            clipX = 0f
-            clipY = 0f
-            clipWidth = 1000f
-            clipHeight = 1000f
+            scale = 1f
+            canvasTranslateX = 0f
+            canvasTranslateY = 0f
             clickedGallery = null
         } else {
             // Hacer zoom sobre la galería clickeada
-            clipX = gallery.x
-            clipY = gallery.y
-            clipWidth = gallery.width
-            clipHeight = gallery.height
+            scale = 1.2f  // Ejemplo de escala de zoom, ajustar según sea necesario
+//            canvasTranslateX = -gallery.x + width / 2 - gallery.width / 2
+//            canvasTranslateY = -gallery.y + height / 2 - gallery.height / 2
             clickedGallery = gallery
         }
-        invalidate()
-    }
-
-    // Métodos adicionales para configuración desde XML
-    fun getClipX(): Float {
-        return clipX
-    }
-
-    fun setClipX(clipX: Float) {
-        this.clipX = clipX
-        invalidate()
-    }
-
-    fun getClipY(): Float {
-        return clipY
-    }
-
-    fun setClipY(clipY: Float) {
-        this.clipY = clipY
-        invalidate()
-    }
-
-    fun getClipWidth(): Float {
-        return clipWidth
-    }
-
-    fun setClipWidth(clipWidth: Float) {
-        this.clipWidth = clipWidth
-        invalidate()
-    }
-
-    fun getClipHeight(): Float {
-        return clipHeight
-    }
-
-    fun setClipHeight(clipHeight: Float) {
-        this.clipHeight = clipHeight
         invalidate()
     }
 }
