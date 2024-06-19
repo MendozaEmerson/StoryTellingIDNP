@@ -12,16 +12,16 @@ class CanvasMap(context: Context, attrs: AttributeSet? = null) : View(context, a
         isAntiAlias = true
     }
 
-    private val drawableShapes = mutableListOf<DrawableShape>()
+    private val dibujarExposicions = mutableListOf<DibujarExposicion>()
 
-    fun addDrawableShape(drawableShape: DrawableShape) {
-        drawableShapes.add(drawableShape)
+    fun addDrawableShape(dibujarExposicion: DibujarExposicion) {
+        dibujarExposicions.add(dibujarExposicion)
         invalidate() // Llama a onDraw para redibujar la vista
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        for (shape in drawableShapes) {
+        for (shape in dibujarExposicions) {
             shape.draw(canvas, paint)
         }
     }

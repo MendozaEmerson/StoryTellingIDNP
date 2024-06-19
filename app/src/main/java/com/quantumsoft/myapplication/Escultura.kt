@@ -3,12 +3,12 @@ package com.quantumsoft.myapplication
 import android.graphics.Canvas
 import android.graphics.Paint
 
-class Circle(
+class Escultura(
     private var centerX: Float,
     private var centerY: Float,
     private val radius: Float,
     private var color: Int
-) : DrawableShape {
+) : DibujarExposicion {
 
     fun getX(): Float {
         return centerX

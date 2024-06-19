@@ -3,13 +3,13 @@ package com.quantumsoft.myapplication
 import android.graphics.Canvas
 import android.graphics.Paint
 
-class Rectangle(
+class Pintura(
     private var left: Float,
     private var top: Float,
     private var right: Float,
     private var bottom: Float,
     private var color: Int
-) : DrawableShape {
+) : DibujarExposicion {
 
     fun getWidth(): Float {
         return right - left

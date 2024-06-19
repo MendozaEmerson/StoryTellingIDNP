@@ -15,22 +15,22 @@ class MainActivity : AppCompatActivity() {
         canvasMap = findViewById(R.id.canvasMap)
 
         // Crear una galería como un rectángulo dentro de los límites del CanvasMap
-        val gallery = Gallery(50f, 50f, 380f, 200f, Color.GREEN)
+        val galeria = Galeria(0f, 0f, 480f, 300f, Color.GREEN)
 
         // Agregar figuras ajustadas a la galería
-        val circleInGallery = Circle(0f, 0f, 40f, Color.MAGENTA)
-        gallery.addDrawableShape(circleInGallery)
+        val esculturaInGallery = Escultura(80f, 0f, 40f, Color.MAGENTA)
+        galeria.addDrawableShape(esculturaInGallery)
 
-        val rectangleInGallery = Rectangle(50f, 50f, 100f, 100f, Color.YELLOW)
+        val pinturaInGallery = Pintura(10f, 10f, 90f, 90f, Color.YELLOW)
         // Agregar rectángulo con un desplazamiento
-        gallery.addDrawableShape(rectangleInGallery)
+        galeria.addDrawableShape(pinturaInGallery, 0f, 0f)
 
-        val rectangleInGallery1 = Rectangle(50f, 50f, 90f, 90f, Color.BLUE)
+        val pinturaInGallery1 = Pintura(50f, 50f, 90f, 90f, Color.BLUE)
         // Agregar rectángulo con un desplazamiento
-        gallery.addDrawableShape(rectangleInGallery1)
+        galeria.addDrawableShape(pinturaInGallery1)
 
 
         // Agregar la galería al CanvasMap
-        canvasMap.addDrawableShape(gallery)
+        canvasMap.addDrawableShape(galeria)
     }
 }
