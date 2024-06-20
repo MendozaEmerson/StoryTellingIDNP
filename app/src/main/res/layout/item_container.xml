@@ -13,7 +13,7 @@
         android:layout_height="80dp"
         android:layout_gravity="center_vertical"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:src="@drawable/carpintero_de_nidos" />
 
     <LinearLayout
         android:layout_width="0dp"
