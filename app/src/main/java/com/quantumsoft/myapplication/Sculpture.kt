@@ -1,6 +1,7 @@
 package com.quantumsoft.myapplication
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 
 class Sculpture(
@@ -17,12 +18,22 @@ class Sculpture(
 
     override fun draw(canvas: Canvas) {
         canvas.drawCircle(x + radius, y + radius, radius, paint)
+
+        val borderPaint = Paint(textPaint)
+        borderPaint.color = Color.BLACK
+        borderPaint.textSize = textPaint.textSize
+        borderPaint.style = Paint.Style.STROKE
+        borderPaint.strokeWidth = 8f
+        borderPaint.isAntiAlias = true
+
+
+        canvas.drawText(name, x + radius, y + radius, borderPaint)
         canvas.drawText(name, x + radius, y + radius, textPaint)
     }
 
-    override fun containsPoint(px: Float, py: Float): Boolean {
-        val dx = px - (x + radius)
-        val dy = py - (y + radius)
+    override fun containsPoint(x: Float, y: Float): Boolean {
+        val dx = x - (this.x + radius)
+        val dy = y - (this.y + radius)
         return dx * dx + dy * dy <= radius * radius
     }
 }
