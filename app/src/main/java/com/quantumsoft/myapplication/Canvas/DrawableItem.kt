@@ -1,4 +1,4 @@
-package com.quantumsoft.myapplication
+package com.quantumsoft.myapplication.Canvas
 
 import android.graphics.Canvas
 
