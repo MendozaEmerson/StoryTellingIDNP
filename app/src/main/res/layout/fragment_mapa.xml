@@ -8,28 +8,14 @@
 
     <com.quantumsoft.myapplication.Canvas.MuseumView
         android:id="@+id/museumView"
-        android:layout_width="306dp"
-        android:layout_height="423dp"
-        android:background="#FF0000"
-        android:backgroundTint="#FF0000"
+        android:layout_width="412dp"
+        android:layout_height="731dp"
+        android:background="#67AB9F"
+        android:backgroundTint="#67AB9F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.948" />
-
-    <com.quantumsoft.myapplication.Canvas.MuseumView
-        android:layout_width="186dp"
-        android:layout_height="190dp"
-        android:layout_marginBottom="28dp"
-        android:background="#FF0000"
-        android:backgroundTint="#FF0000"
-        app:layout_constraintBottom_toTopOf="@+id/museumView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

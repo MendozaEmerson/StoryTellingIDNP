@@ -1,7 +1,9 @@
 package com.quantumsoft.myapplication.Canvas
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
+
 
 class Gallery(
     override val x: Float,
@@ -21,7 +23,19 @@ class Gallery(
 
     override fun draw(canvas: Canvas) {
         canvas.drawRect(x, y, x + width, y + height, paint)
+
+        // Configuración del Paint para el borde del texto
+        val borderPaint = Paint(textPaint)
+        borderPaint.color = Color.BLACK
+        borderPaint.textSize = textPaint.textSize
+        borderPaint.style = Paint.Style.STROKE
+        borderPaint.strokeWidth = 8f
+        borderPaint.isAntiAlias = true
+
+
+        canvas.drawText(name, x + width / 2, y + height / 2, borderPaint)
         canvas.drawText(name, x + width / 2, y + height / 2, textPaint)
+
         for (item in items) {
             item.draw(canvas)
         }

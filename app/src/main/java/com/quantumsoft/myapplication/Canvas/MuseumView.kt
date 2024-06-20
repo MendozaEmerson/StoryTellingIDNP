@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+
 class MuseumView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -58,15 +59,11 @@ class MuseumView @JvmOverloads constructor(
             style = Paint.Style.STROKE
             strokeWidth = 5f
         }
-        val galleryTextPaint = Paint().apply {
-            color = Color.RED
-            textSize = 50f
-            textAlign = Paint.Align.CENTER
-        }
+        val galleryTextPaint = sculptureTextPaint
 
         // Ejemplo de creación de galerías
         val gallery1 = Gallery(0f, 0f, 200f, 200f,
-            "",
+            "\uD83D\uDC6E",
             Paint().apply { color = Color.parseColor("#7EA6E0") },
             galleryTextPaint)
         museum.addGallery(gallery1)
@@ -91,25 +88,102 @@ class MuseumView @JvmOverloads constructor(
             galleryTextPaint)
         museum.addGallery(gallery4)
 
-        val gallery5 = Gallery(900f, 200f, 200f, 650f,
+        val gallery5 = Gallery(900f, 200f, 200f, 550f,
             "G2",
             Paint().apply { color = Color.parseColor("#1BA1E2")},
             galleryTextPaint)
         museum.addGallery(gallery5)
 
-        val gallery6 = Gallery(400f, 550f, 500f, 250f,
+        val gallery6 = Gallery(400f, 550f, 500f, 200f,
             "G3",
             Paint().apply { color = Color.parseColor("#D5739D")},
             galleryTextPaint)
         museum.addGallery(gallery6)
 
         val (x7, y7) = gallery6.positionBelow(gallery6)
-        val gallery7 = Gallery(x7, y7, 700f, 200f,
-            "G6",
+        val gallery7 = Gallery(x7, y7, 700f, 150f,
+            "Capilla",
             Paint().apply { color = Color.parseColor("#9AC7BF")},
             galleryTextPaint)
         museum.addGallery(gallery7)
 
+        val gallery8 = Gallery(900f, 900f, 200f, 800f,
+            "G6",
+            Paint().apply { color = Color.parseColor("#A9C4EB")},
+            galleryTextPaint)
+        museum.addGallery(gallery8)
+
+        val gallery9 = Gallery(420f, 1450f, 480f, 250f,
+            "La sala",
+            Paint().apply { color = Color.parseColor("#9AC7BF")},
+            galleryTextPaint)
+        museum.addGallery(gallery9)
+
+
+        val (x10, y10) = gallery3.positionBelow(gallery3)
+        val gallery10 = Gallery(x10, y10, 200f, 850f,
+            "\uD83D\uDD12",
+            Paint().apply { color = Color.parseColor("#F5F5F5")},
+            galleryTextPaint)
+        museum.addGallery(gallery10)
+
+
+        val (x100, y100) = gallery10.positionBelow(gallery10)
+        val gallery100 = Gallery(x100, y100, 150f, 250f,
+            "\uD83D\uDEBA",
+            Paint().apply { color = Color.parseColor("#DAE8FC")},
+            galleryTextPaint)
+        museum.addGallery(gallery100)
+
+        val (x11, y11) = gallery100.positionBelow(gallery100)
+        val gallery11 = Gallery(x11, y11, 150f, 50f,
+            "",
+            Paint().apply { color = Color.parseColor("#FFFFFF")},
+            galleryTextPaint)
+        museum.addGallery(gallery11)
+
+        val (x12, y12) = gallery11.positionBelow(gallery11)
+        val gallery12 = Gallery(x12, y12, 150f, 250f,
+            "\uD83D\uDEB9",
+            Paint().apply { color = Color.parseColor("#DAE8FC")},
+            galleryTextPaint)
+        museum.addGallery(gallery12)
+
+        val gallery13 = Gallery(900f, 1700f, 200f, 600f,
+            "\uD83D\uDD12",
+            Paint().apply { color = Color.parseColor("#F5F5F5")},
+            galleryTextPaint)
+        museum.addGallery(gallery13)
+
+        val gallery14 = Gallery(400f, 2100f, 500f, 200f,
+            "\uD83D\uDD12",
+            Paint().apply { color = Color.parseColor("#F5F5F5")},
+            galleryTextPaint)
+        museum.addGallery(gallery14)
+
+        val gallery15 = Gallery(450f, 1025f, 300f, 300f,
+            "",
+            Paint().apply { color = Color.parseColor("#F5F5F5")},
+            galleryTextPaint)
+        museum.addGallery(gallery15)
+
+        gallery15.addItem(Sculpture(
+            475f, 1050f, 125f,
+            "Árbol",
+            Paint().apply { color = Color.parseColor("#60A917")},
+            sculptureTextPaint))
+
+        val gallery16 = Gallery(450f, 1750f, 300f, 300f,
+            "",
+            Paint().apply { color = Color.parseColor("#F5F5F5")},
+            galleryTextPaint)
+        museum.addGallery(gallery16)
+
+        gallery16.addItem(Sculpture(
+            475f, 1775f, 125f,
+            "Árbol Escultura Cabeza",
+            Paint().apply { color = Color.parseColor("#60A917")},
+            sculptureTextPaint))
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -142,15 +216,12 @@ class MuseumView @JvmOverloads constructor(
 
         val finalScale = if (finalScaleX < finalScaleY) finalScaleX else finalScaleY
 
-        // Crea una matriz para la transformación
         val matrix = Matrix()
         matrix.setScale(finalScale, finalScale)
 
-        // Aplica la matriz al Canvas
         canvas.setMatrix(matrix)
-//        canvas.scale(scale, scale, canvas.width / 2f, canvas.height / 2f)
-//        canvas.translate(canvasTranslateX, canvasTranslateY)
         Log.d(TAG, "onDraw: scale: $scale, translateX: $canvasTranslateX, translateY: $canvasTranslateY")
+
         museum.draw(canvas)
     }
 
@@ -212,5 +283,31 @@ class MuseumView @JvmOverloads constructor(
             clickedGallery = gallery
         }
         invalidate()
+    }
+
+    private val mAspectRatioWidth = 11
+    private val mAspectRatioHeight = 23
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val originalWidth = MeasureSpec.getSize(widthMeasureSpec)
+
+        val originalHeight = MeasureSpec.getSize(heightMeasureSpec)
+
+        val calculatedHeight: Int = originalWidth * mAspectRatioHeight / mAspectRatioWidth
+
+        val finalWidth: Int
+        val finalHeight: Int
+
+        if (calculatedHeight > originalHeight) {
+            finalWidth = originalHeight * mAspectRatioWidth / mAspectRatioHeight
+            finalHeight = originalHeight
+        } else {
+            finalWidth = originalWidth
+            finalHeight = calculatedHeight
+        }
+
+        super.onMeasure(
+            MeasureSpec.makeMeasureSpec(finalWidth, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(finalHeight, MeasureSpec.EXACTLY)
+        )
     }
 }
