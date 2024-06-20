@@ -3,6 +3,7 @@ package com.quantumsoft.myapplication
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
@@ -64,22 +65,51 @@ class MuseumView @JvmOverloads constructor(
         }
 
         // Ejemplo de creación de galerías
-        val gallery1 = Gallery(50f, 50f, 400f, 400f, "Galería 1", galleryPaint, galleryTextPaint)
-        gallery1.addItem(Sculpture(150f, 150f, 50f, "Escultura 1", sculpturePaint, sculptureTextPaint))
-        gallery1.addItem(Painting(50f, 250f, 150f, 100f, "Pintura 1", paintingPaint, paintingTextPaint))
+        val gallery1 = Gallery(0f, 0f, 200f, 200f,
+            "",
+            Paint().apply { color = Color.parseColor("#7EA6E0") },
+            galleryTextPaint)
         museum.addGallery(gallery1)
 
-        val (x2, y2) = gallery1.positionRightOf(gallery1, padding = 20f)
-        val gallery2 = Gallery(x2, y2, 400f, 400f, "Galería 2", galleryPaint, galleryTextPaint)
-        gallery2.addItem(Sculpture(150f, 150f, 60f, "Escultura 2", sculpturePaint, sculptureTextPaint))
-        gallery2.addItem(Painting(50f, 250f, 200f, 100f, "Pintura 2", paintingPaint, paintingTextPaint))
+        val (x2, y2) = gallery1.positionBelow(gallery1)
+        val gallery2 = Gallery(x2, y2, 200f, 400f,
+            "G4",
+            Paint().apply { color = Color.parseColor("#A20025")},
+            galleryTextPaint)
         museum.addGallery(gallery2)
 
-        val (x3, y3) = gallery1.positionBelow(gallery1, padding = 20f)
-        val gallery3 = Gallery(x3, y3, 400f, 400f, "Galería 3", galleryPaint, galleryTextPaint)
-        gallery3.addItem(Sculpture(150f, 150f, 50f, "Escultura 3", sculpturePaint, sculptureTextPaint))
-        gallery3.addItem(Painting(50f, 250f, 150f, 100f, "Pintura 3", paintingPaint, paintingTextPaint))
+        val (x3, y3) = gallery2.positionBelow(gallery2)
+        val gallery3 = Gallery(x3, y3, 200f, 300f,
+            "G5",
+            Paint().apply { color = Color.parseColor("#F8CECC")},
+            galleryTextPaint)
         museum.addGallery(gallery3)
+
+        val gallery4 = Gallery(400f, 0f, 700f, 200f,
+            "G1",
+            Paint().apply { color = Color.parseColor("#FFF2CC")},
+            galleryTextPaint)
+        museum.addGallery(gallery4)
+
+        val gallery5 = Gallery(900f, 200f, 200f, 650f,
+            "G2",
+            Paint().apply { color = Color.parseColor("#1BA1E2")},
+            galleryTextPaint)
+        museum.addGallery(gallery5)
+
+        val gallery6 = Gallery(400f, 550f, 500f, 250f,
+            "G3",
+            Paint().apply { color = Color.parseColor("#D5739D")},
+            galleryTextPaint)
+        museum.addGallery(gallery6)
+
+        val (x7, y7) = gallery6.positionBelow(gallery6)
+        val gallery7 = Gallery(x7, y7, 700f, 200f,
+            "G6",
+            Paint().apply { color = Color.parseColor("#9AC7BF")},
+            galleryTextPaint)
+        museum.addGallery(gallery7)
+
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -94,8 +124,32 @@ class MuseumView @JvmOverloads constructor(
             canvasTranslateY = -it.y - it.height / 2 + canvas.height / 2
         }
 
+        // Obtén el tamaño del View
+        val viewWidth = width.toFloat()
+        val viewHeight = height.toFloat()
+
+        // Define el tamaño del contenido original
+        val originalWidth = 1100f
+        val originalHeight = 2300f
+
+        // Calcula la escala para ajustar el contenido al View
+        val scaleX = viewWidth / originalWidth
+        val scaleY = viewHeight / originalHeight
+
+        // Aplica la escala adicional
+        val finalScaleX = scaleX
+        val finalScaleY = scaleY
+
+        val finalScale = if (finalScaleX < finalScaleY) finalScaleX else finalScaleY
+
+        // Crea una matriz para la transformación
+        val matrix = Matrix()
+        matrix.setScale(finalScale, finalScale)
+
+        // Aplica la matriz al Canvas
+        canvas.setMatrix(matrix)
 //        canvas.scale(scale, scale, canvas.width / 2f, canvas.height / 2f)
-        canvas.translate(canvasTranslateX, canvasTranslateY)
+//        canvas.translate(canvasTranslateX, canvasTranslateY)
         Log.d(TAG, "onDraw: scale: $scale, translateX: $canvasTranslateX, translateY: $canvasTranslateY")
         museum.draw(canvas)
     }
@@ -106,22 +160,6 @@ class MuseumView @JvmOverloads constructor(
         val scaledX = (event.x - canvasTranslateX) / scale
         val scaledY = (event.y - canvasTranslateY) / scale
 
-        // various combinations of event position, translation and scale
-        val x1 = (event.x + canvasTranslateX/scale) / scale
-        val y1 = (event.y + canvasTranslateY/scale) / scale
-        Log.i(TAG, "x1: $x1, y1: $y1")
-        val x2 = (event.x + canvasTranslateX) * scale
-        val y2 = (event.y + canvasTranslateY) * scale
-        Log.i(TAG, "x2: $x2, y2: $y2")
-        val x3 = (event.x * scale) + canvasTranslateX
-        val y3 = (event.y * scale) + canvasTranslateY
-        Log.i(TAG, "x3: $x3, y3: $y3")
-        val x4 = (event.x * scale) - canvasTranslateX
-        val y4 = (event.y * scale) - canvasTranslateY
-        Log.i(TAG, "x4: $x4, y4: $y4")
-        val x5 = (event.x - canvasTranslateX) / scale
-        val y5 = (event.y - canvasTranslateY) / scale
-        Log.i(TAG, "x5: $x5, y5: $y5")
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {

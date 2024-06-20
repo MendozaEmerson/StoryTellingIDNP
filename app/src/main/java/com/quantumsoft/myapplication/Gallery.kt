@@ -39,19 +39,19 @@ class Gallery(
 
 
     // Métodos para posicionamiento relativo
-    fun positionBelow(other: Gallery, padding: Float = 10f): Pair<Float, Float> {
+    fun positionBelow(other: Gallery, padding: Float = 0f): Pair<Float, Float> {
         return Pair(other.x, other.y + other.height + padding)
     }
 
-    fun positionRightOf(other: Gallery, padding: Float = 10f): Pair<Float, Float> {
+    fun positionRightOf(other: Gallery, padding: Float = 0f): Pair<Float, Float> {
         return Pair(other.x + other.width + padding, other.y)
     }
 
-    fun positionLeftOf(other: Gallery, padding: Float = 10f): Pair<Float, Float> {
+    fun positionLeftOf(other: Gallery, padding: Float = 0f): Pair<Float, Float> {
         return Pair(other.x - this.width - padding, other.y)
     }
 
-    fun positionAbove(other: Gallery, padding: Float = 10f): Pair<Float, Float> {
+    fun positionAbove(other: Gallery, padding: Float = 0f): Pair<Float, Float> {
         return Pair(other.x, other.y - this.height - padding)
     }
 }
