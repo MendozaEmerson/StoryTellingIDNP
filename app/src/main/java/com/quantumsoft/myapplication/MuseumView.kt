@@ -63,7 +63,7 @@ class MuseumView @JvmOverloads constructor(
 
         // Ejemplo de creación de galerías
         val gallery1 = Gallery(0f, 0f, 200f, 200f,
-            "",
+            "\uD83D\uDC6E",
             Paint().apply { color = Color.parseColor("#7EA6E0") },
             galleryTextPaint)
         museum.addGallery(gallery1)
