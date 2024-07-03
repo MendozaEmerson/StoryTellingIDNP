@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:icon="@drawable/qr_scan_svgrepo_com"
+        android:id="@+id/menu_home"
+        />
+    <item android:title="Cuadros"
+        android:icon="@drawable/painting_of_art_museum_svgrepo_com"
+        android:id="@+id/menu_cuadros"
+        />
+    <item android:title="Mapa"
+        android:icon="@drawable/map_svgrepo_com"
+        android:id="@+id/menu_mapa"
+        />
+</menu>
