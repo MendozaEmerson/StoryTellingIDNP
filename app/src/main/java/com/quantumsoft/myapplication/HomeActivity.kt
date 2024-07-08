@@ -22,7 +22,8 @@ class HomeActivity : AppCompatActivity() {
     private var fragmentManager: FragmentManager? = null
     private var fragmentTransaction: FragmentTransaction? = null
 
-    private var qrFragment: QRFragment? = null
+//    private var qrFragment: QRFragment? = null
+    private var insertDataFragment: InsertDataFragment? = null
     private var cuadrosFragment: CuadrosFragment? = null
     private var mapaFragment: MapaFragment? = null
 
@@ -63,8 +64,8 @@ class HomeActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_home -> {
-                    qrFragment = QRFragment.newInstance("", "")
-                    loadFragment(qrFragment)
+                    insertDataFragment = InsertDataFragment.newInstance("", "")
+                    loadFragment(insertDataFragment)
                     true
                 }
                 R.id.menu_cuadros -> {

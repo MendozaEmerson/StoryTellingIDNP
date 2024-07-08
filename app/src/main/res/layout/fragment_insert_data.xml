@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".InsertDataFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</FrameLayout>
+
+        <!-- Campos para Sala -->
+<!--        val nombre: String,-->
+<!--        val descripcion: String,-->
+<!--        val posX: Float,-->
+<!--        val posY: Float,-->
+<!--        val width: Float,-->
+<!--        val height: Float-->
+        <EditText
+            android:id="@+id/et_sala_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre de la Sala" />
+
+        <EditText
+            android:id="@+id/et_sala_descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción de la Sala" />
+
+        <EditText
+            android:id="@+id/et_sala_posX"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Posición X de la Sala" />
+
+        <EditText
+            android:id="@+id/et_sala_posY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Posición Y de la Sala" />
+
+        <EditText
+            android:id="@+id/et_sala_width"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ancho de la Sala" />
+
+        <EditText
+            android:id="@+id/et_sala_height"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alto de la Sala" />
+
+        <Button
+            android:id="@+id/btn_insert_sala"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insertar Sala" />
+
+<!--        &lt;!&ndash; Campos para Pintura &ndash;&gt;-->
+<!--        <EditText-->
+<!--            android:id="@+id/et_pintura_titulo"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Título de la Pintura" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/et_pintura_tecnica"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Técnica de la Pintura" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_insert_pintura"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Insertar Pintura" />-->
+
+<!--        &lt;!&ndash; Campos para Autor &ndash;&gt;-->
+<!--        <EditText-->
+<!--            android:id="@+id/et_autor_nombre"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Nombre del Autor" />-->
+
+<!--        &lt;!&ndash; ... otros campos de Autor ... &ndash;&gt;-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btn_insert_autor"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Insertar Autor" />-->
+    </LinearLayout>
+</ScrollView>
