@@ -6,6 +6,9 @@ import androidx.room.Query
 
 @Dao
 interface AutorDao {
+    @Query("SELECT * FROM autores WHERE id = :autorId")
+    suspend fun getAutorById(autorId: Int): Autor
+
     @Insert
     suspend fun insertAutor(autor: Autor)
 

@@ -56,4 +56,6 @@ dependencies {
     // Optional - Test helpers
     testImplementation("androidx.room:room-testing:2.5.1")
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
+
 }

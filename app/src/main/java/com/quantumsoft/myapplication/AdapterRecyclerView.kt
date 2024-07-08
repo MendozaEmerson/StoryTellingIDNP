@@ -6,8 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.quantumsoft.myapplication.repository.PinturaRepository
+import com.quantumsoft.myapplication.repository.SalaRepository
 
-class AdapterRecyclerView(private var items: List<Item>, private val onImageClickListener: OnImageClickListener) :
+class AdapterRecyclerView(
+    private var items: List<Item>,
+    private val onImageClickListener: OnImageClickListener) :
     RecyclerView.Adapter<AdapterRecyclerView.MyViewHolder>() {
 
     data class Item(

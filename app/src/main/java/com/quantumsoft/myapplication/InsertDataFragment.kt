@@ -37,7 +37,7 @@ class InsertDataFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_insert_data, container, false)
         database = AppDatabase.getDatabase(requireContext())
-        salaRepository = SalaRepository(database.salaDao())
+        salaRepository = SalaRepository(requireContext())
 
         val etSalaNombre = view.findViewById<EditText>(R.id.et_sala_nombre)
         val etSalaDescripcion = view.findViewById<EditText>(R.id.et_sala_descripcion)

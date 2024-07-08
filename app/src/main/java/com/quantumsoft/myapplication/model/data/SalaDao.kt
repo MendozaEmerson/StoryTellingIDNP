@@ -11,4 +11,7 @@ interface SalaDao {
 
     @Query("SELECT * FROM salas")
     suspend fun getAllSalas(): List<Sala>
+
+    @Query("SELECT * FROM salas WHERE id = :salaId")
+    suspend fun getSalaById(salaId: Int): Sala
 }

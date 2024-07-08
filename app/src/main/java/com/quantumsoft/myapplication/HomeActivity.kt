@@ -15,6 +15,7 @@ import com.quantumsoft.myapplication.fragments.QRFragment
 import com.quantumsoft.myapplication.fragments.MapaFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
+import com.quantumsoft.myapplication.viewmodel.MuseoViewModel
 
 class HomeActivity : AppCompatActivity() {
 
@@ -69,7 +70,9 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_cuadros -> {
-                    cuadrosFragment = CuadrosFragment.newInstance("", "",   object:FragmentChanger{
+                    cuadrosFragment = CuadrosFragment.newInstance("", "",
+                        MuseoViewModel(applicationContext),
+                        object:FragmentChanger{
                         override fun changeFragment(fragment: Fragment?) {
                             loadFragment(fragment)
                         }

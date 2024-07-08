@@ -10,6 +10,8 @@ import android.widget.SearchView
 import com.quantumsoft.myapplication.AdapterRecyclerView
 import com.quantumsoft.myapplication.FragmentChanger
 import com.quantumsoft.myapplication.R
+import com.quantumsoft.myapplication.model.data.Pintura
+import com.quantumsoft.myapplication.viewmodel.MuseoViewModel
 import java.util.ArrayList
 
 class CuadrosFragment : Fragment() {
@@ -21,15 +23,18 @@ class CuadrosFragment : Fragment() {
     private lateinit var adapterRecyclerView: AdapterRecyclerView
     private lateinit var items: MutableList<AdapterRecyclerView.Item>
 
+
     companion object {
         lateinit var fragmentChanger: FragmentChanger
+        lateinit var museoViewModel: MuseoViewModel
 
         @JvmStatic
-        fun newInstance(a: String, b: String, fragmentChanger: FragmentChanger): CuadrosFragment {
+        fun newInstance(a: String, b: String, viewmodel: MuseoViewModel, fragmentChanger: FragmentChanger): CuadrosFragment {
             val fragment = CuadrosFragment()
             CuadrosFragment.fragmentChanger = fragmentChanger
             val args = Bundle()
             fragment.arguments = args
+            museoViewModel = viewmodel
             return fragment
         }
     }
@@ -40,6 +45,11 @@ class CuadrosFragment : Fragment() {
             mParam1 = it.getString(mParam1)
             mParam2 = it.getString(mParam2)
         }
+
+
+
+
+
     }
 
     override fun onCreateView(
@@ -55,19 +65,25 @@ class CuadrosFragment : Fragment() {
 
         // ITEMS DE EJEMPLO
         items = ArrayList()
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
+//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
 
+        museoViewModel.addExampleData()
         adapterRecyclerView = AdapterRecyclerView(items, AdapterRecyclerView.OnImageClickListener { imageId ->
             fragmentChanger.changeFragment(CuadroDetalleFragment.newInstance("", ""))
         })
         recyclerView.adapter = adapterRecyclerView
+
+        museoViewModel.updateListItems()
+        museoViewModel.items.observe(viewLifecycleOwner) {
+            adapterRecyclerView.updateList(it)
+        }
 
         return view
     }
