@@ -56,7 +56,6 @@ class CuadrosFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_cuadros, container, false)
 
         val searchView: SearchView = view.findViewById(R.id.searchView)
@@ -65,16 +64,8 @@ class CuadrosFragment : Fragment() {
 
         // ITEMS DE EJEMPLO
         items = ArrayList()
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-//        items.add(AdapterRecyclerView.Item(1, "Carpintero de Nidos", "Sala N° X", "Daniel Gallegos Esquivias"))
-
         museoViewModel.addExampleData()
+
         adapterRecyclerView = AdapterRecyclerView(items, AdapterRecyclerView.OnImageClickListener { imageId ->
             fragmentChanger.changeFragment(CuadroDetalleFragment.newInstance("", ""))
         })
