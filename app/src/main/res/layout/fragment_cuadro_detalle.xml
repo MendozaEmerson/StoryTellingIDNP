@@ -79,7 +79,7 @@
         <TextView
             android:id="@+id/tecnicaTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="59dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Técnica: -------"
@@ -88,7 +88,7 @@
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="259dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="La presente exposición es una indagación sobre las posibilidades que me da el papel para representar y abstraer aspectos constitutivos de mi identidad. Tratándose de espejos rotos, nuestra vida es inabarcable en un reflejo o una narrativa unitaria, cuanto mucho vamos siendo en tanto vamos recorriendo las huellas, las marcas, las rutas abiertas y las rutas bloqueadas: los laberintos de la memoria, los pasillos, rincones, cuartos, jardines y huertos; espacios con olor a incienso habitados por seres espectrales, incorpóreos y volátiles que desaparecen cuando se pretende asirlos. Dejamos entonces existir a los fantasmas en su vida de mentiras. Aunque ello no los haga menos peligrosos, porque hablan; gritan, se atropellan en un retumbar de ecos cargados de abandono, desolación y reclamos. l es mi raíz? ¿Cómo plasmo todo esto con papel?" />

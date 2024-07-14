@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="582dp"
         android:layout_margin="40dp"
         android:orientation="vertical">
 
@@ -17,11 +17,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Carpintero de Nidos"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:textStyle="bold" />
 
 
         <ImageView
@@ -44,22 +44,25 @@
             android:textSize="16sp" />
 
 
-
         <TextView
             android:id="@+id/tecnicaTextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="47dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Técnica: -------"
             android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/reproductoraudio" />
-
-
+        <Button
+            android:id="@+id/btn_toggle"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/play_button_background"
+            android:contentDescription="Play Button"
+            android:drawableStart="@drawable/ic_button_play"
+            android:drawablePadding="16dp"
+            android:textColorLink="#D35400" />
     </LinearLayout>
 </FrameLayout>
