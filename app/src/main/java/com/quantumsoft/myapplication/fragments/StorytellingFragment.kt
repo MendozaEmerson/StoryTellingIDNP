@@ -45,9 +45,11 @@ class StorytellingFragment : Fragment() {
 
     private fun sendCommandToService(command: String, filename: String? = null) {
         val audioPlayServiceIntent = Intent(requireContext(), AudioPlayServices::class.java)
-        audioPlayServiceIntent.putExtra(AudioPlayServices.COMMAND, command)
-        filename?.let {
-            audioPlayServiceIntent.putExtra(AudioPlayServices.FILENAME, it)
+        audioPlayServiceIntent.putExtra(AudioPlayServices.COMMAND, command)// Solo envía el nombre del archivo si el comando es PLAY
+        if (command == AudioPlayServices.PLAY) {
+            filename?.let {
+                audioPlayServiceIntent.putExtra(AudioPlayServices.FILENAME, it)
+            }
         }
         requireContext().startService(audioPlayServiceIntent)
     }

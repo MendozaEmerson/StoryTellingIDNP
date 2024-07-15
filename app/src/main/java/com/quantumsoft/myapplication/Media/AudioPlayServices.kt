@@ -32,12 +32,14 @@ class AudioPlayServices : Service() {
 
         when (command) {
             PLAY -> {
-                if (!isPlaying()) {
+                if (mediaPlayer == null) { // Crea un nuevo MediaPlayer solo si no existe
                     Log.d(TAG, "onStartCommand: Playing audio")
                     audioPlay(filename)
-                } else {
+                } else if (!isPlaying()) { // Reanuda si existe pero está pausado
                     Log.d(TAG, "onStartCommand: Resuming audio")
                     audioResume()
+                } else {
+                    Log.d(TAG, "onStartCommand: Audio is already playing")
                 }
             }
             PAUSE -> {
@@ -54,7 +56,7 @@ class AudioPlayServices : Service() {
             }
         }
 
-        return START_STICKY
+        return START_NOT_STICKY // No reinicia el servicio si se destruye
     }
 
     private fun isPlaying(): Boolean {
