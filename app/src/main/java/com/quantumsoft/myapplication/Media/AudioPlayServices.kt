@@ -134,7 +134,7 @@ class AudioPlayServices : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        audioStop()
+        audioStop() // Llama a audioStop() para detener el servicio en primer plano y eliminar la notificación
     }
 
     private fun createNotification(): Notification {
@@ -143,14 +143,14 @@ class AudioPlayServices : Service() {
 
         // Crea el canal de notificación (necesario para Android 8.0 y superior)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH) // Cambia la importancia
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
 
         // Crea la notificación
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Reproduciendo audio") // Título de la notificación
+            .setContentTitle("Reproduciendo audio en segundo plano") // Título de la notificación
             .setContentText("Audio en reproducción") // Texto de la notificación
             .setSmallIcon(R.drawable.ic_button_play) // Ícono de la notificación
             .setOngoing(true) // La notificación no se puede descartar
