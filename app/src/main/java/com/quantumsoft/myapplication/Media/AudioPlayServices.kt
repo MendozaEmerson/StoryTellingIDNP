@@ -1,10 +1,16 @@
 package com.quantumsoft.myapplication.Media
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import com.quantumsoft.myapplication.R
 import com.quantumsoft.myapplication.fragments.StorytellingFragment.Companion.ACTION_AUDIO_FINISHED
 
 class AudioPlayServices : Service() {
@@ -19,6 +25,7 @@ class AudioPlayServices : Service() {
         const val PAUSE = "PAUSE"
         const val RESUME = "RESUME"
         const val STOP = "STOP"
+        private const val NOTIFICATION_ID = 1
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -36,6 +43,8 @@ class AudioPlayServices : Service() {
                 if (mediaPlayer == null) { // Crea un nuevo MediaPlayer solo si no existe
                     Log.d(TAG, "onStartCommand: Playing audio")
                     audioPlay(filename)
+                    // Inicia el servicio en primer plano después de iniciar la reproducción
+                    startForeground(NOTIFICATION_ID, createNotification())
                 } else if (!isPlaying()) { // Reanuda si existe pero está pausado
                     Log.d(TAG, "onStartCommand: Resuming audio")
                     audioResume()
@@ -120,10 +129,32 @@ class AudioPlayServices : Service() {
         }
         mediaPlayer = null
         Log.d(TAG, "audioStop: Stopped audio")
+        stopForeground(STOP_FOREGROUND_REMOVE) // Detiene el servicio en primer plano y elimina la notificación
     }
 
     override fun onDestroy() {
         super.onDestroy()
         audioStop()
+    }
+
+    private fun createNotification(): Notification {
+        val channelId = "audio_playback_channel" // ID del canal de notificación
+        val channelName = "Audio Playback" // Nombre del canal
+
+        // Crea el canal de notificación (necesario para Android 8.0 y superior)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        // Crea la notificación
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setContentTitle("Reproduciendo audio") // Título de la notificación
+            .setContentText("Audio en reproducción") // Texto de la notificación
+            .setSmallIcon(R.drawable.ic_button_play) // Ícono de la notificación
+            .setOngoing(true) // La notificación no se puede descartar
+
+        return notificationBuilder.build()
     }
 }

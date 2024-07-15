@@ -13,8 +13,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import com.quantumsoft.myapplication.Media.AudioPlayServices
 import com.quantumsoft.myapplication.R
+import android.Manifest
 
 class StorytellingFragment : Fragment() {
 
@@ -74,6 +76,14 @@ class StorytellingFragment : Fragment() {
             }
             isPlaying = !isPlaying
         }
+        // Solicita los permisos de Android
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.FOREGROUND_SERVICE),
+                REQUEST_CODE_FOREGROUND_SERVICE
+            )
+        }
     }
 
     // Registra el BroadcastReceiver cuando el Fragment se reanuda
@@ -115,6 +125,8 @@ class StorytellingFragment : Fragment() {
 
                 }
             }
+        // Código para la solicitud de permisos
+        private const val REQUEST_CODE_FOREGROUND_SERVICE = 100
 
         // Accion para el broadcast receiver
         const val ACTION_AUDIO_FINISHED = "com.quantumsoft.myapplication.AUDIO_FINISHED"
