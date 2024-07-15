@@ -81,6 +81,11 @@ class AudioPlayServices : Service() {
                     start()
                     Log.d(TAG, "audioPlay: Started playing audio $filename")
                 }
+                mediaPlayer?.setOnCompletionListener {
+                    Log.d(TAG, "audioPlay: Audio finalizado")
+                    audioStop() // Detén la reproducción y libera recursos
+                    stopSelf() // Detén el servicio
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "audioPlay: Error playing audio", e)
             }
