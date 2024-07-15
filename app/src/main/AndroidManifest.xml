@@ -27,7 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".Media.AudioPlayServices" />
+        <service
+            android:name=".Media.AudioPlayServices"
+            android:foregroundServiceType="mediaPlayback"
+            />
     </application>
 
 </manifest>

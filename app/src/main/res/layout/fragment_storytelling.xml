@@ -53,16 +53,15 @@
             android:text="Técnica: -------"
             android:textSize="16sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_toggle"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:background="@drawable/play_button_background"
+            android:background="#BCBCBC"
             android:contentDescription="Play Button"
-            android:drawableStart="@drawable/ic_button_play"
-            android:drawablePadding="16dp"
-            android:textColorLink="#D35400" />
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_button_play"
+            app:tint="@color/design_default_color_primary" />
     </LinearLayout>
 </FrameLayout>

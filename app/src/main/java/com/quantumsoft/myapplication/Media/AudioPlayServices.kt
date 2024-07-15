@@ -139,11 +139,11 @@ class AudioPlayServices : Service() {
 
     private fun createNotification(): Notification {
         val channelId = "audio_playback_channel" // ID del canal de notificación
-        val channelName = "Audio Playback" // Nombre del canal
+        val channelName = "Music Service Channel" // Nombre del canal
 
         // Crea el canal de notificación (necesario para Android 8.0 y superior)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }

@@ -1,8 +1,13 @@
 package com.quantumsoft.myapplication
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 //import androidx.activity.EdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -16,7 +21,7 @@ import com.quantumsoft.myapplication.fragments.MapaFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.quantumsoft.myapplication.viewmodel.MuseoViewModel
-
+import android.Manifest
 class HomeActivity : AppCompatActivity() {
 
     //private lateinit var binding: ActivityHomeBinding
@@ -27,7 +32,10 @@ class HomeActivity : AppCompatActivity() {
     private var insertDataFragment: InsertDataFragment? = null
     private var cuadrosFragment: CuadrosFragment? = null
     private var mapaFragment: MapaFragment? = null
-
+    private fun showPermissionStatus(message: String) {
+        // Aquí puedes mostrar un mensaje al usuario, por ejemplo usando un Toast o un Snackbar
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //EdgeToEdge.enable(this)
@@ -37,6 +45,29 @@ class HomeActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                    if (isGranted) {
+                        // Permiso concedido
+                        showPermissionStatus("Permiso de notificaciones concedido.")
+                    } else {
+                        // Permiso denegado
+                        showPermissionStatus("Permiso de notificaciones denegado.")
+                    }
+                }
+
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                // Permiso ya concedido, puedes enviar notificaciones
+                showPermissionStatus("Permiso de notificaciones concedido.")
+            }
+        } else {
+            // Android 12 o versiones anteriores, no necesitas pedir permiso
+            showPermissionStatus("No se requiere permiso para notificaciones en esta versión de Android.")
         }
         /*
         binding = ActivityHomeBinding.inflate(layoutInflater)
