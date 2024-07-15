@@ -5,6 +5,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.IBinder
 import android.util.Log
+import com.quantumsoft.myapplication.fragments.StorytellingFragment.Companion.ACTION_AUDIO_FINISHED
 
 class AudioPlayServices : Service() {
     private var mediaPlayer: MediaPlayer? = null
@@ -85,6 +86,7 @@ class AudioPlayServices : Service() {
                     Log.d(TAG, "audioPlay: Audio finalizado")
                     audioStop() // Detén la reproducción y libera recursos
                     stopSelf() // Detén el servicio
+                    sendBroadcast(Intent(ACTION_AUDIO_FINISHED)) // Envía el broadcast
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "audioPlay: Error playing audio", e)
