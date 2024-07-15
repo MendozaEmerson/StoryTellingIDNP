@@ -17,11 +17,12 @@ import androidx.core.app.ActivityCompat
 import com.quantumsoft.myapplication.Media.AudioPlayServices
 import com.quantumsoft.myapplication.R
 import android.Manifest
+import android.widget.ImageButton
 
 class StorytellingFragment : Fragment() {
 
     private var isPlaying = false
-    private lateinit var btnToggle: Button // Define el botón a nivel de clase
+    private lateinit var btnToggle: ImageButton // Define el botón a nivel de clase
 
     // Broadcast receiver para el evento de finalización de la reproducción
     private val audioFinishedReceiver = object : BroadcastReceiver() {
@@ -29,12 +30,9 @@ class StorytellingFragment : Fragment() {
             if (intent?.action == ACTION_AUDIO_FINISHED) {
                 isPlaying = false
                 btnToggle.setBackgroundResource(R.drawable.play_button_background) // Accede al botón
-                btnToggle.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_button_play,
-                    0,
-                    0,
-                    0
-                )
+
+//               button image btnToggle set src drawable
+                btnToggle.setImageResource(R.drawable.ic_button_play)
             }
         }
     }
@@ -56,22 +54,12 @@ class StorytellingFragment : Fragment() {
             if (isPlaying) {
                 // Pausar o detener la reproducción
                 btnToggle.setBackgroundResource(R.drawable.play_button_background)
-                btnToggle.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_button_play,
-                    0,
-                    0,
-                    0
-                )
+                btnToggle.setImageResource(R.drawable.ic_button_play)
                 sendCommandToService(AudioPlayServices.PAUSE)
             } else {
                 // Iniciar o reanudar la reproducción
                 btnToggle.setBackgroundResource(R.drawable.pause_button_background)
-                btnToggle.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_button_pause,
-                    0,
-                    0,
-                    0
-                )
+                btnToggle.setImageResource(R.drawable.ic_button_pause)
                 sendCommandToService(AudioPlayServices.PLAY, "audioVoice2.mp3")
             }
             isPlaying = !isPlaying

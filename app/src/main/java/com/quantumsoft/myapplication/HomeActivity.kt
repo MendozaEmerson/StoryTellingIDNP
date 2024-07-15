@@ -52,21 +52,17 @@ class HomeActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
                     if (isGranted) {
-                        // Permiso concedido
                         showPermissionStatus("Permiso de notificaciones concedido.")
                     } else {
-                        // Permiso denegado
                         showPermissionStatus("Permiso de notificaciones denegado.")
                     }
                 }
 
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             } else {
-                // Permiso ya concedido, puedes enviar notificaciones
                 showPermissionStatus("Permiso de notificaciones concedido.")
             }
         } else {
-            // Android 12 o versiones anteriores, no necesitas pedir permiso
             showPermissionStatus("No se requiere permiso para notificaciones en esta versión de Android.")
         }
         /*
