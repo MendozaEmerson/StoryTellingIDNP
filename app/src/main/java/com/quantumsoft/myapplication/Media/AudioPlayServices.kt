@@ -3,6 +3,7 @@ package com.quantumsoft.myapplication.Media
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.quantumsoft.myapplication.HomeActivity
 import com.quantumsoft.myapplication.R
 import com.quantumsoft.myapplication.fragments.StorytellingFragment.Companion.ACTION_AUDIO_FINISHED
 
@@ -31,6 +33,7 @@ class AudioPlayServices : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val filename = intent?.getStringExtra(FILENAME)
@@ -148,11 +151,23 @@ class AudioPlayServices : Service() {
             notificationManager.createNotificationChannel(channel)
         }
 
+
+        // Crear un Intent para abrir la actividad deseada al hacer clic en la notificación
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
         // Crea la acción para detener la reproducción
         val stopIntent = Intent(this, AudioPlayServices::class.java).apply {
             putExtra(AudioPlayServices.COMMAND, AudioPlayServices.STOP)
         }
-        val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        val stopPendingIntent = PendingIntent.getService(
+            this,
+            0,
+            stopIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         // Crea la notificación
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
@@ -160,6 +175,7 @@ class AudioPlayServices : Service() {
             .setContentText("Audio en reproducción") // Texto de la notificación
             .setSmallIcon(R.drawable.ic_button_play) // Ícono de la notificación
             .setOngoing(true) // La notificación no se puede descartar
+            .setContentIntent(pendingIntent) // Intent al hacer clic en la notificación
             .addAction(R.drawable.ic_button_pause, "Detener", stopPendingIntent) // Agrega la acción
 
         return notificationBuilder.build()
