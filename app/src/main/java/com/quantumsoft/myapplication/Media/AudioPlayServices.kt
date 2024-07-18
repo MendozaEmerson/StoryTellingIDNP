@@ -148,12 +148,19 @@ class AudioPlayServices : Service() {
             notificationManager.createNotificationChannel(channel)
         }
 
+        // Crea la acción para detener la reproducción
+        val stopIntent = Intent(this, AudioPlayServices::class.java).apply {
+            putExtra(AudioPlayServices.COMMAND, AudioPlayServices.STOP)
+        }
+        val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+
         // Crea la notificación
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Reproduciendo audio") // Título de la notificación
+            .setContentTitle("Reproduciendo audio en segundo plano") // Título de la notificación
             .setContentText("Audio en reproducción") // Texto de la notificación
             .setSmallIcon(R.drawable.ic_button_play) // Ícono de la notificación
             .setOngoing(true) // La notificación no se puede descartar
+            .addAction(R.drawable.ic_button_pause, "Detener", stopPendingIntent) // Agrega la acción
 
         return notificationBuilder.build()
     }
