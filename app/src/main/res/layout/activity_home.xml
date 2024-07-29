@@ -5,11 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".ui.activities.HomeActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.quantumsoft.myapplication.fragments.QRFragment"
+        android:name="com.quantumsoft.myapplication.ui.fragments.QRFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#590219"

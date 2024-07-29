@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.quantumsoft.myapplication.AdapterRecyclerView
-import com.quantumsoft.myapplication.model.data.Autor
-import com.quantumsoft.myapplication.model.data.Pintura
-import com.quantumsoft.myapplication.model.data.Sala
-import com.quantumsoft.myapplication.repository.AutorRepository
-import com.quantumsoft.myapplication.repository.PinturaRepository
-import com.quantumsoft.myapplication.repository.SalaRepository
+import com.quantumsoft.myapplication.ui.adapters.AdapterRecyclerView
+import com.quantumsoft.myapplication.data.local.entities.Autor
+import com.quantumsoft.myapplication.data.local.entities.Pintura
+import com.quantumsoft.myapplication.data.local.entities.Sala
+import com.quantumsoft.myapplication.data.repository.AutorRepository
+import com.quantumsoft.myapplication.data.repository.PinturaRepository
+import com.quantumsoft.myapplication.data.repository.SalaRepository
 
 import kotlinx.coroutines.launch
 
