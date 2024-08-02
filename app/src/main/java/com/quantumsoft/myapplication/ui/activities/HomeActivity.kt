@@ -38,6 +38,7 @@ import com.quantumsoft.myapplication.data.repository.PinturaRepository
 import com.quantumsoft.myapplication.data.repository.SalaRepository
 import com.quantumsoft.myapplication.services.AudioPlayServices
 import com.quantumsoft.myapplication.ui.fragments.AudioFragment
+import com.quantumsoft.myapplication.ui.fragments.QRFragment
 import com.quantumsoft.myapplication.viewmodel.FragmentChanger
 import com.quantumsoft.myapplication.viewmodel.MuseoViewModelFactory
 import kotlinx.coroutines.CoroutineScope
@@ -89,7 +90,7 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
     private var fragmentManager: FragmentManager? = null
     private var fragmentTransaction: FragmentTransaction? = null
 
-//    private var qrFragment: QRFragment? = null
+    private var qrFragment: QRFragment? = null
     private var insertDataFragment: InsertDataFragment? = null
     private var cuadrosFragment: CuadrosFragment? = null
     private var mapaFragment: MapaFragment? = null
@@ -218,8 +219,8 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
         bottomNavigationView.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_home -> {
-                    insertDataFragment = InsertDataFragment.newInstance("", "")
-                    loadFragment(insertDataFragment)
+                    qrFragment = QRFragment.newInstance()
+                    loadFragment(qrFragment)
                     true
                 }
                 R.id.menu_cuadros -> {
