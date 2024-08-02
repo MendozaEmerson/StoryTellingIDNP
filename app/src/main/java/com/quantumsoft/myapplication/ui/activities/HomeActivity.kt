@@ -24,6 +24,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
@@ -86,6 +87,7 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
     private lateinit var museoViewModel: MuseoViewModel
 
 
+    private lateinit var bottomNavigationView: BottomNavigationView
     //private lateinit var binding: ActivityHomeBinding
     private var fragmentManager: FragmentManager? = null
     private var fragmentTransaction: FragmentTransaction? = null
@@ -157,6 +159,35 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
         }
     }
 
+    private fun requestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            } else {
+                showPermissionStatus("Permiso de cámara ya concedido.")
+                requestNotificationPermission() // Solicita el permiso de notificaciones si ya se concedió el de cámara
+            }
+        } else {
+            showPermissionStatus("No se requiere permiso para la cámara en esta versión de Android.")
+            requestNotificationPermission() // Solicita el permiso de notificaciones si no se requiere el de cámara
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                showPermissionStatus("Permiso de notificaciones ya concedido.")
+            }
+        } else {
+            showPermissionStatus("No se requiere permiso para notificaciones en esta versión de Android.")
+        }
+    }
+
+    private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var requestNotificationPermissionLauncher: ActivityResultLauncher<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //EdgeToEdge.enable(this)
@@ -174,23 +205,27 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
             downloadJsonIfNotExists(applicationContext)
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                    if (isGranted) {
-                        showPermissionStatus("Permiso de notificaciones concedido.")
-                    } else {
-                        showPermissionStatus("Permiso de notificaciones denegado.")
-                    }
-                }
 
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        // Inicializa los lanzadores de permisos
+        requestCameraPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                showPermissionStatus("Permiso de cámara concedido.")
+                requestNotificationPermission() // Solicita el permiso de notificaciones si se concede el de cámara
             } else {
-                showPermissionStatus("Permiso de notificaciones concedido.")
+                showPermissionStatus("Permiso de cámara denegado.")
             }
-        } else {
-            showPermissionStatus("No se requiere permiso para notificaciones en esta versión de Android.")
         }
+
+        requestNotificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                showPermissionStatus("Permiso de notificaciones concedido.")
+            } else {
+                showPermissionStatus("Permiso de notificaciones denegado.")
+            }
+        }
+
+        // Solicita los permisos
+        requestPermissions()
 
         // Inicializa tus repositorios
         val pinturaRepository = PinturaRepository(applicationContext) // O pasa el contexto de forma segura
@@ -211,11 +246,17 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainerAudio, audioFragment)
                 .commit()
+
+            val qrFragment = QRFragment.newInstance()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, qrFragment)
+                .commit()
         }
 
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
         bottomNavigationView.selectedItemId = R.id.menu_home
+
         bottomNavigationView.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_home -> {
@@ -250,6 +291,10 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
 
     override fun changeFragment(fragment: Fragment?) {
         loadFragment(fragment)
+    }
+
+    override fun changeNavigationSelectedItem(itemId: Int) {
+        bottomNavigationView.selectedItemId = itemId
     }
 
 

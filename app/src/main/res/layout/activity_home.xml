@@ -9,7 +9,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.quantumsoft.myapplication.ui.fragments.QRFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#590219"

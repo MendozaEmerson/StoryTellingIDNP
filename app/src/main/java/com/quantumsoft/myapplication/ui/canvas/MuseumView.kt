@@ -289,13 +289,6 @@ class MuseumView @JvmOverloads constructor(
         invalidate()
     }
 
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-
-        // Aquí puedes realizar cualquier ajuste necesario en base al nuevo tamaño
-        // Por ejemplo, recalcular posiciones, dimensiones de elementos, etc.
-    }
     private val mAspectRatioWidth = 11
     private val mAspectRatioHeight = 23
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

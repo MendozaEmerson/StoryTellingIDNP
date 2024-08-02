@@ -3,6 +3,7 @@ package com.quantumsoft.myapplication.viewmodel
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -140,12 +141,20 @@ class MuseoViewModel(
     val pinturaActual: LiveData<Exposicion> = _pinturaActual
 
     fun setPinturaActual(id: Long) {
+        Log.d("MuseoViewModel", "setPinturaActual: $id")
         viewModelScope.launch {
+            Log.d("MuseoViewModel", "setPinturaActual: inside coroutine")
             try {
+                Log.d("MuseoViewModel", "setPinturaActual: inside try")
                 val pintura = exposicionRepository.getExposicionById(id)
+
+                // log all pintura data
+                Log.d("MuseoViewModel", "Pintura: ${pintura.id} ${pintura.titulo} ${pintura.autor} ${pintura.tecnica} ${pintura.imagen_link}")
+
                 _pinturaActual.value = pintura
             } catch (e: Exception) {
-                // Maneja el error
+                // log errors
+                Log.e("MuseoViewModel", "Error: ${e.message}")
             }
         }
     }

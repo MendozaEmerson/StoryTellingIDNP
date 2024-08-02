@@ -1,11 +1,14 @@
 package com.quantumsoft.myapplication.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.OptIn
 import androidx.camera.core.CameraSelector
+
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -21,6 +24,8 @@ import com.quantumsoft.myapplication.databinding.FragmentQrBinding
 import com.quantumsoft.myapplication.viewmodel.MuseoViewModel
 import com.quantumsoft.myapplication.viewmodel.MuseoViewModelFactory
 import com.quantumsoft.myapplication.data.repository.ExposicionRepository
+//import com.quantumsoft.myapplication.ui.fragments.CuadrosFragment.Companion.ARG_PARAM1
+//import com.quantumsoft.myapplication.ui.fragments.CuadrosFragment.Companion.ARG_PARAM2
 import com.quantumsoft.myapplication.viewmodel.FragmentChanger
 import java.util.concurrent.Executors
 
@@ -32,14 +37,20 @@ class QRFragment : Fragment() {
     private lateinit var museoViewModel: MuseoViewModel
     private var fragmentChanger: FragmentChanger? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentChanger = context as FragmentChanger
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        arguments?.let {
+//            mParam1 = it.getString(ARG_PARAM1)
+//            mParam2 = it.getString(ARG_PARAM2)
+//        }
 
-        val repository = ExposicionRepository(requireContext()) // Ajusta esto según tu implementación de repositorio
-        val viewModelFactory = MuseoViewModelFactory(repository)
-        museoViewModel = ViewModelProvider(this, viewModelFactory).get(MuseoViewModel::class.java)
-
-        fragmentChanger = activity as? FragmentChanger // Obtén la referencia al FragmentChanger desde la actividad
+        // Obtener el ViewModel de la actividad asociada
+        museoViewModel = ViewModelProvider(requireActivity()).get(MuseoViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -84,10 +95,16 @@ class QRFragment : Fragment() {
 
     private fun handleQRCode(qrCode: String) {
         val id = qrCode.toLongOrNull() // Ajusta esto según el formato del QR
+        Log.d("QRFragment", "QR code detected: $id")
+
+        // log data type of id
+        Log.d("QRFragment", "Data type of id: ${id?.javaClass?.simpleName}")
+
         id?.let {
             museoViewModel.setPinturaActual(it)
             // Navegar al fragmento de detalles del cuadro
             val fragment = CuadroDetalleFragment.newInstance("", "")
+            fragmentChanger?.changeNavigationSelectedItem(R.id.menu_cuadros)
             fragmentChanger?.changeFragment(fragment) // Usa fragmentChanger si no es nulo
         }
     }
