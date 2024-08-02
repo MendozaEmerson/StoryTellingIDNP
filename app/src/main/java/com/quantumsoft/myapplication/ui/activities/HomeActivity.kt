@@ -300,10 +300,10 @@ class HomeActivity : AppCompatActivity(), FragmentChanger {
 
     override fun onPause() {
         super.onPause()
-        val intent = Intent(this, AudioPlayServices::class.java).apply {
-            putExtra(AudioPlayServices.COMMAND, AudioPlayServices.SHOW_NOTIFICATION)
-        }
-        startService(intent) // Muestra la notificación
+//        val intent = Intent(this, AudioPlayServices::class.java).apply {
+//            putExtra(AudioPlayServices.COMMAND, AudioPlayServices.SHOW_NOTIFICATION)
+//        }
+//        startService(intent) // Muestra la notificación
     }
 
     override fun onResume() {

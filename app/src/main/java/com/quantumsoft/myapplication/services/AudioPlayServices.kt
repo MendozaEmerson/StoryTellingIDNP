@@ -296,6 +296,12 @@ class AudioPlayServices : Service() {
             HIDE_NOTIFICATION -> {
                 stopForeground(true)
             }
+            TERMINATE_SERVICE -> {
+                Log.d(TAG, "onStartCommand: Terminating service")
+                stopForeground(true);
+                audioStop()
+                stopSelf()
+            }
         }
 
         when (action) {
