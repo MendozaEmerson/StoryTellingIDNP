@@ -11,4 +11,10 @@ class ExposicionRepository(context: Context) {
     suspend fun insertExposicion(exposicion: Exposicion) = exposicionDao.insertExposicion(exposicion)
     suspend fun getAllExposiciones() = exposicionDao.getAllExposiciones()
     suspend fun getExposicionById(exposicionId: Long) = exposicionDao.getExposicionById(exposicionId)
+
+    suspend fun searchExposiciones(query: String): List<Exposicion> {
+        // Prepara el texto para la búsqueda
+        val formattedQuery = "%$query%" 
+        return exposicionDao.searchExposiciones(formattedQuery)
+    }
 }

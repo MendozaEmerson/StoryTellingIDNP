@@ -87,6 +87,19 @@ class CuadrosFragment : Fragment() {
             adapterRecyclerView.updateList(items)
         }
 
+
+        // update search value an filter items list
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                museoViewModel.searchExposiciones(newText ?: "")
+                return true
+            }
+        })
+
         return view
     }
 }

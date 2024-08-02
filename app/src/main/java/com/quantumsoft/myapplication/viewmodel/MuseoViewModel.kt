@@ -31,6 +31,40 @@ class MuseoViewModel(
     private val _items = MutableLiveData<List<AdapterRecyclerView.Item>>()
     val items: LiveData<List<AdapterRecyclerView.Item>> = _items
 
+    val _searchText = MutableLiveData<String>()
+    val searchText: LiveData<String> = _searchText
+
+//   Use ExposicionRepository.searchExposiciones and update list items whit filters
+    fun searchExposiciones(query: String) {
+        if (query.isBlank()) {
+            updateListItems()
+            return
+        }
+        _searchText.value = query
+        viewModelScope.launch {
+            try {
+                val items: MutableList<AdapterRecyclerView.Item> = mutableListOf()
+                val exposiciones = exposicionRepository.searchExposiciones(query)
+                for (exposicion in exposiciones) {
+                    items.add(
+                        AdapterRecyclerView.Item(
+                            id = exposicion.id,
+                            imageResId = 1, // Considera obtener la ID de la imagen correctamente
+                            title = exposicion.titulo,
+                            location = exposicion.tecnica,
+                            author = exposicion.autor,
+                            image_url = exposicion.imagen_link
+                        )
+                    )
+                }
+                _items.value = items
+            } catch (e: Exception) {
+                // Maneja el error, por ejemplo, puedes registrar el error o mostrar un mensaje
+            }
+        }
+    }
+
+
     fun updateListItems() {
         viewModelScope.launch {
             try {
@@ -57,6 +91,8 @@ class MuseoViewModel(
             }
         }
     }
+
+
 
 //    fun addExampleData() {
 //        viewModelScope.launch {
