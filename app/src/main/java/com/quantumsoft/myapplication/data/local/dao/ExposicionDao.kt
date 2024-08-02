@@ -21,4 +21,8 @@ interface ExposicionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertExposiciones(exposiciones: List<Exposicion>)
 
+    @Query("SELECT * FROM exposiciones WHERE titulo LIKE :query OR autor LIKE :query OR tecnica LIKE :query OR sala LIKE :query OR descripcion LIKE :query")
+    suspend fun searchExposiciones(query: String): List<Exposicion>
+
+
 }

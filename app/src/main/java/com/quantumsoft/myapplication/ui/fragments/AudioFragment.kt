@@ -1,6 +1,5 @@
 package com.quantumsoft.myapplication.ui.fragments
 
-import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Context.RECEIVER_NOT_EXPORTED
@@ -16,7 +15,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.quantumsoft.myapplication.R
@@ -81,8 +79,7 @@ class AudioFragment : Fragment() {
 
         val imageCuadro = view.findViewById<ImageView>(R.id.item_image)
 
-        museoViewModel.currentExposicionPLay.observe(viewLifecycleOwner
-        ) { expo: Exposicion? ->
+        museoViewModel.currentExposicionPLay.observe(viewLifecycleOwner) { expo: Exposicion? ->
             if (expo == null) {
                 view.visibility = View.GONE
             } else {
@@ -142,6 +139,16 @@ class AudioFragment : Fragment() {
                 sendCommandToService(AudioPlayServices.PLAY)
             }
             isPlaying = !isPlaying
+        }
+
+        val btnStop = view.findViewById<ImageButton>(R.id.btn_stop)
+        btnStop.setOnClickListener {
+            isPlaying = false
+            btnToggle.setBackgroundResource(R.drawable.play_button_background)
+            btnToggle.setImageResource(R.drawable.ic_button_play)
+            sendCommandToService(AudioPlayServices.TERMINATE_SERVICE)
+
+            museoViewModel.setExposicionPLay(null)
         }
     }
 
