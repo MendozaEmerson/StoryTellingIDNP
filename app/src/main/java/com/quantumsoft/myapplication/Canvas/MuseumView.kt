@@ -1,4 +1,4 @@
-package com.quantumsoft.myapplication.ui.canvas
+package com.quantumsoft.myapplication.Canvas
 
 import android.content.Context
 import android.graphics.Canvas
@@ -167,13 +167,11 @@ class MuseumView @JvmOverloads constructor(
             galleryTextPaint)
         museum.addGallery(gallery15)
 
-        gallery15.addItem(
-            Sculpture(
+        gallery15.addItem(Sculpture(
             475f, 1050f, 125f,
             "Árbol",
             Paint().apply { color = Color.parseColor("#60A917")},
-            sculptureTextPaint)
-        )
+            sculptureTextPaint))
 
         val gallery16 = Gallery(450f, 1750f, 300f, 300f,
             "",
@@ -181,13 +179,11 @@ class MuseumView @JvmOverloads constructor(
             galleryTextPaint)
         museum.addGallery(gallery16)
 
-        gallery16.addItem(
-            Sculpture(
+        gallery16.addItem(Sculpture(
             475f, 1775f, 125f,
             "Árbol Escultura Cabeza",
             Paint().apply { color = Color.parseColor("#60A917")},
-            sculptureTextPaint)
-        )
+            sculptureTextPaint))
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -289,13 +285,6 @@ class MuseumView @JvmOverloads constructor(
         invalidate()
     }
 
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-
-        // Aquí puedes realizar cualquier ajuste necesario en base al nuevo tamaño
-        // Por ejemplo, recalcular posiciones, dimensiones de elementos, etc.
-    }
     private val mAspectRatioWidth = 11
     private val mAspectRatioHeight = 23
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

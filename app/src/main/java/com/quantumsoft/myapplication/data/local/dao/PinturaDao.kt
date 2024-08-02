@@ -9,6 +9,9 @@ import com.quantumsoft.myapplication.data.local.entities.Sala
 
 @Dao
 interface PinturaDao {
+
+//
+
     @Query("SELECT * FROM pinturas WHERE id = :pinturaId")
     suspend fun getPinturaById(pinturaId: Int): Pintura
 

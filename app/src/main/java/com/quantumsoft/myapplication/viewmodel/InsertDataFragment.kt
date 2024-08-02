@@ -59,13 +59,13 @@ class InsertDataFragment : Fragment() {
             CoroutineScope(
                 Dispatchers.IO
             ).launch {
-                salaRepository.insertSala(sala)
-
-
-                val salas = salaRepository.getAllSalas()
-                salas.forEach {
-                    Log.i("Sala", it.toString())
-                }
+//                salaRepository.insertSala(sala)
+//
+//
+//                val salas = salaRepository.getAllSalas()
+//                salas.forEach {
+//                    Log.i("Sala", it.toString())
+//                }
             }
         }
 

@@ -98,7 +98,7 @@ class StorytellingFragment : Fragment() {
         )// Solo envía el nombre del archivo si el comando es PLAY
         if (command == AudioPlayServices.PLAY) {
             filename?.let {
-                audioPlayServiceIntent.putExtra(AudioPlayServices.FILENAME, it)
+//                audioPlayServiceIntent.putExtra(AudioPlayServices.FILENAME, it)
             }
         }
         requireContext().startService(audioPlayServiceIntent)

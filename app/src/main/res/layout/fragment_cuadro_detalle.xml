@@ -76,7 +76,7 @@
 
         </LinearLayout>
 
-        <TextView
+            <TextView
             android:id="@+id/tecnicaTextView"
             android:layout_width="match_parent"
             android:layout_height="59dp"
@@ -86,7 +86,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/descripcionCuadro"
             android:layout_width="wrap_content"
             android:layout_height="259dp"
             android:layout_marginTop="8dp"

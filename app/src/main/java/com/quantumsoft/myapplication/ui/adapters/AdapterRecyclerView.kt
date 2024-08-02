@@ -7,18 +7,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.quantumsoft.myapplication.R
+import com.quantumsoft.myapplication.viewmodel.MuseoViewModel
 
 class AdapterRecyclerView(
     private var items: List<Item>,
-    private val onImageClickListener: OnImageClickListener
+    private val onImageClickListener: OnImageClickListener,
+    private val museoViewModel: MuseoViewModel
 ) :
     RecyclerView.Adapter<AdapterRecyclerView.MyViewHolder>() {
 
     data class Item(
+        val id: Long,
         val imageResId: Int,
         val title: String,
         val location: String,
-        val author: String
+        val author: String,
+        val image_url: String
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -29,13 +33,19 @@ class AdapterRecyclerView(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = items[position]
         // Para ejemplo, se establece una imagen fija
-        holder.imageView.setImageResource(R.drawable.carpintero_de_nidos)
+//        holder.imageView.setImageResource(R.drawable.carpintero_de_nidos)
         holder.titleTextView.text = item.title
         holder.locationTextView.text = item.location
         holder.authorTextView.text = item.author
 
         holder.imageView.setOnClickListener {
+            museoViewModel.setPinturaActual(item.id)
             onImageClickListener.onImageClick(item.imageResId)
+        }
+
+
+        museoViewModel.getImage(item.image_url) { bitmap ->
+            holder.imageView.setImageBitmap(bitmap) // Establecer la imagen en el ImageView
         }
     }
 
