@@ -14,5 +14,6 @@
    
   <img src="https://www.codigos-qr.com/qr/php/qr_img.php?d=25&s=4&e=" alt="Imagen Mi chicha morada" width="300"/>
 
-Los qr son textos de numeros corespondientes a los indices de cada pintura (del 1 al 32) según nuestros datos en [archivo json](https://raw.githubusercontent.com/Frank-C0/museo-virtual-app/main/static/pinturas.json).
+Los QR son textos de numeros corespondientes a los indices de cada pintura (del 1 al 32) según nuestros datos en [archivo json](https://raw.githubusercontent.com/Frank-C0/museo-virtual-app/main/static/pinturas.json).
 
+Se descargan los datos de internet y se guardan en la base de datos. Tambien se descargan las imagenes y audios desde archivos estaticos de nuestro [repositorio de imagenes y audios](https://github.com/Jeffrey-7101/Static-museo-virtual/)
