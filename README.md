@@ -17,3 +17,14 @@
 Los QR son textos de numeros corespondientes a los indices de cada pintura (del 1 al 32) según nuestros datos en [archivo json](https://raw.githubusercontent.com/Frank-C0/museo-virtual-app/main/static/pinturas.json).
 
 Se descargan los datos de internet y se guardan en la base de datos. Tambien se descargan las imagenes y audios desde archivos estaticos de nuestro [repositorio de imagenes y audios](https://github.com/Jeffrey-7101/Static-museo-virtual/)
+
+
+
+
+
+
+
+
+Adicional: Museo A Mapa 3D (incluye release ejecutable)
+Repositorio: [https://github.com/Frank-C0/Museo-Virtual](https://github.com/Frank-C0/Museo-Virtual)
+![Imagen Museo #D](https://github.com/Frank-C0/Museo-Virtual/blob/main/Museo3D.png?raw=true)
